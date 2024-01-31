@@ -1,0 +1,48 @@
+.navbar {
+    background: #5b676d !important;
+    border-bottom: 1px solid rgb(177, 176, 176);
+    position: sticky !important;
+    top: 0;
+    z-index: 10;
+    box-shadow: rgba(33, 35, 38, 0.1) 0px 10px 10px -10px;
+}
+
+.side-nav {
+    background: #bbbbbb;
+}
+
+.card-template {
+    min-height: 500px;
+}
+
+.box {
+    height: 80px;
+    width: 80px;
+    background: #444444;
+    margin: 10px;
+}
+
+.box-1 {
+    border: 2px solid #350909;
+}
+
+.fa-trash-can {
+    color: #bb0909;
+
+    &:hover {
+        color: #fd0606;
+        font-size: 18px;
+    }
+}
+
+.custom-btn {
+    background: #a8b1b6 !important;
+}
+
+.custom-bg {
+    background-color: #f3f2f4;
+}
+
+.active-card {
+    border: 3px solid #e741a2;
+}
