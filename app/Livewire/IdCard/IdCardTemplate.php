@@ -12,6 +12,7 @@ class IdCardTemplate extends Component
     public function render()
     {
         $cards = Card::all();
+        // dd($cards);
         return view('livewire.id-card.id-card-template', compact('cards'));
     }
 

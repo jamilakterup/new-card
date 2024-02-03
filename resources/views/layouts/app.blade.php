@@ -7,9 +7,7 @@
 
 <body>
 
-
     {{ $slot }}
-
 
     @include('userTemplate.scripts')
 </body>

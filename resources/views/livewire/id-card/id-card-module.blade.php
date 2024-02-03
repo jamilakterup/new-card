@@ -20,8 +20,14 @@
                             <div class="card card-template">
                                 @if (!is_null($asignTemplate))
                                 <img src="{{$frontImage ? Storage::url($asignTemplate->front_image): Storage::url($asignTemplate->back_image)}}"
-                                    alt="card_template" height="500px" class="rounded">
+                                    alt="card-img" height="500px" class="card-img">
                                 @endif
+                                <div>
+                                    <canvas id="myCanvas" width="385px" height="500"
+                                        class="position-absolute top-0 start-0 card-img">
+                                        Your browser does not support the HTML canvas tag.
+                                    </canvas>
+                                </div>
                             </div>
                             <div class="d-flex justify-content-center gap-3 my-3">
                                 @if (!is_null($asignTemplate))
@@ -43,6 +49,9 @@
                         data-mdb-ripple-color="dark">SUBMIT CARD</button>
                 </div>
             </div>
+
+
+
         </div>
     </div>
 </main>

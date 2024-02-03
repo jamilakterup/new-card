@@ -1,7 +1,7 @@
 <?php
 
 use App\Http\Controllers\CardController;
-use App\Http\Controllers\DesignController;
+// use App\Http\Controllers\DesignController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use App\Livewire\IdCard\IdCardModule;

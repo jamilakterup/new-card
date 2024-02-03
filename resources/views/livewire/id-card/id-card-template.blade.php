@@ -3,10 +3,24 @@
         @foreach ($cards as $card)
         <div class="col" wire:click="asignIdCard({{$card->id}})">
             <div class="card h-100" role="button">
-                <img wire:click="(activeCard('front'))" src="{{Storage::url($card->front_image)}}" height="200px"
-                    width="100%" class="card-img {{$card->id==$selectedCard ? 'active-card' : ''}}" alt="card-image">
+                <img src="{{Storage::url($card->front_image)}}" height="200px" width="100%"
+                    class="card-img {{$card->id==$selectedCard ? 'active-card' : ''}}" alt="card-image">
             </div>
         </div>
         @endforeach
     </div>
+
+    {{--
+    <div class="row row-cols-md-2">
+        @foreach ($cards as $card)
+        <div class="col">
+            <div>
+                <button onclick="myCanvas('{{ Storage::url($card->front_image) }}')">
+                    <img src="{{ Storage::url($card->front_image) }}" height="200px" width="100%"
+                        class="card-img {{ $card->id == $selectedCard ? 'active-card' : '' }}" alt="card-image">
+                </button>
+            </div>
+        </div>
+        @endforeach
+    </div> --}}
 </div>
