@@ -3,15 +3,18 @@
 namespace App\Livewire\IdCard;
 
 use App\Models\Card;
+use Livewire\Attributes\On;
 use Livewire\Component;
 
 class IdCardModule extends Component
 {
     public $asignTemplate;
     public $frontImage = true;
+    public $frontPageInfo = [];
 
 
-    protected $listeners = ['getIdCardTemplate'];
+    protected $listeners = ['getIdCardTemplate', 'getFrontCardData'];
+
     public function render()
     {
         return view('livewire.id-card.id-card-module');
@@ -30,5 +33,11 @@ class IdCardModule extends Component
         } else {
             $this->frontImage = false;
         }
+    }
+
+    public function getFrontCardData($data)
+    {
+        // dd($data);
+        $this->frontPageInfo = $data;
     }
 }

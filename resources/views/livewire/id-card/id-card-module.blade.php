@@ -14,7 +14,8 @@
             @livewire('id-card.id-card-template')
 
             <div class="col-9 py-4">
-                <div class="container text-center">
+                <div class="container">
+                    {{var_export($frontPageInfo)}}
                     <div class="row">
                         <div class="col-5">
                             <div class="card card-template">
@@ -44,14 +45,23 @@
                         </div>
 
                         @livewire('id-card.id-card-preview')
+
+                        <div class="text-center my-5">
+                            <button type="button" class="btn custom-btn text-dark fw-bold w-50 p-3" data-mdb-ripple-init
+                                data-mdb-ripple-color="dark">SUBMIT CARD</button>
+                        </div>
                     </div>
-                    <button type="button" class="btn custom-btn text-dark fw-bold w-50 my-5 py-3" data-mdb-ripple-init
-                        data-mdb-ripple-color="dark">SUBMIT CARD</button>
                 </div>
             </div>
-
-
-
         </div>
     </div>
 </main>
+
+<script>
+    document.addEventListener('livewire:init', () => {
+        Livewire.on('getFrontCardData', function(data){
+            console.log(data)
+        });
+    })
+ 
+</script>
