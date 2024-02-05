@@ -1,6 +1,6 @@
 <div class="col-7">
     <div class="card">
-        <h4 class="card-title my-4">Front page info</h4>
+        <h4 class="card-title my-4 text-center">Front page info</h4>
         {{-- onsubmit="getFormData(this)" --}}
         <div class="card-body">
             <form wire:submit="assignCardData" class="row g-2">
@@ -11,12 +11,13 @@
                     </div>
                     @error('state.field_name') <small class="text-danger">{{ $message }}</small> @enderror
                 </div>
+                <input wire:model="state.x_pos" type="hidden" id="X-pos" value="0">
+                <input wire:model="state.x_pos" type="hidden" id="Y-pos" value="0">
                 <div class="col-3">
                     <select wire:model="state.field_type" class="form-select" aria-label="Default select example">
                         <option selected>Type</option>
-                        <option value="file">File</option>
                         <option value="text">Text</option>
-                        <option value="email">Email</option>
+                        <option value="file">File</option>
                     </select>
                     @error('state.field_type') <small class="text-danger">{{ $message }}</small> @enderror
                 </div>
@@ -39,14 +40,14 @@
                     <select wire:model="state.font_type" class="form-select" aria-label="Default select example">
                         <option selected>Font Type</option>
                         <option value="bold">Bold</option>
-                        <option value="regular">Regular</option>
+                        <option value="normal">Normla</option>
                     </select>
                     @error('state.font_type') <small class="text-danger">{{ $message }}</small> @enderror
                 </div>
                 <div class="col-3">
                     <select wire:model="state.font_family" class="form-select pe-0" aria-label="Default select example">
                         <option selected>Font Family</option>
-                        <option value="sherif">Sherif</option>
+                        <option value="san">Sherif</option>
                         <option value="mono">Mono</option>
                     </select>
                     @error('state.font_family') <small class="text-danger">{{ $message }}</small> @enderror
@@ -73,18 +74,18 @@
             </tr>
         </thead>
         <tbody>
-            @foreach ($frontPageInfo as $items)
-            <tr>
-                <th>{{$items['field_name']}}</th>
-                <td><input type="number" id="xPosition" name="xPos" value="0" class="form-control"
-                        placeholder="X-Axiss"></td>
-                <td><input type="number" id="xPosition" name="xPos" value="0" class="form-control"
-                        placeholder="X-Axiss"></td>
-                <td> <input type="number" id="yPosition" name="yPos" value="0" class="form-control"
-                        placeholder="Y-Axiss"></td>
+            @foreach ($frontPageInfo as $key => $item)
+            <tr class="align-middle">
+                <th>{{$item['field_name']}}</th>
+                <td><input wire:model.live="frontPageInfo.{{$key}}.font_size" type="number" class="form-control"
+                        value="0"></td>
+                <td><input wire:model.live.debounce.600ms="frontPageInfo.{{$key}}.x_pos" type="number"
+                        class="form-control">
+                </td>
+                <td> <input wire:model.live="frontPageInfo.{{$key}}.y_pos" type="number" class="form-control"></td>
                 <td class="px-auto">
-                    <i wire:click="editItem({{$items['id']}})" class="fa-solid fa-pen-to-square mt-2 me-2 fs-6"></i>
-                    <i wire:click="deleteItem({{$items['id']}})" class="fa-solid fa-trash-can mt-2 fs-6"></i>
+                    <i wire:click="editItem({{$item['id']}})" class="fa-solid fa-pen-to-square me-2 fs-6"></i>
+                    <i wire:click="deleteItem({{$item['id']}})" class="fa-solid fa-trash-can fs-6"></i>
                 </td>
             </tr>
             @endforeach
@@ -95,3 +96,25 @@
 </div>
 </div>
 </div>
+
+
+<script>
+    document.addEventListener('livewire:init', () => {
+    // Livewire.on('getFrontCardData', function(data){
+        var c = document.getElementById("myCanvas");
+        var ctx = c.getContext("2d");
+        ctx.clearRect(0, 0, c.width, c.height);
+        var data=@json($frontPageInfo)
+        console.log(data)
+        data[0].forEach(item => {
+        console.log(item)
+            let nam = item.field_value;
+            let font = `${item.font_type} ${item.font_size}px ${item.font_family}`;
+            
+            ctx.font = font;
+            ctx.fillText(nam, item.x_pos, item.y_pos);
+        });
+    // });
+});
+
+</script>

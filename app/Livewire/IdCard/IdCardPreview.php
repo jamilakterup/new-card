@@ -2,7 +2,6 @@
 
 namespace App\Livewire\IdCard;
 
-use Livewire\Attributes\On;
 use Livewire\Component;
 use Livewire\Attributes\Validate;
 
@@ -29,7 +28,16 @@ class IdCardPreview extends Component
         ]
     )]
 
-    public $state = [];
+    public $state = [
+        'field_name' => '',
+        'x_pos' => 30,
+        'y_pos' => 30,
+        'field_type' => '',
+        'field_value' => '',
+        'font_size' => '',
+        'font_type' => '',
+        'font_family' => '',
+    ];
 
     public $mode = 'add';
 
@@ -39,6 +47,11 @@ class IdCardPreview extends Component
     public function render()
     {
         return view('livewire.id-card.id-card-preview');
+    }
+
+    public function updatedFrontPageInfo()
+    {
+        $this->dispatch("getFrontCardData", $this->frontPageInfo);
     }
 
 
