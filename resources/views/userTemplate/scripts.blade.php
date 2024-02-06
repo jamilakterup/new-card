@@ -16,13 +16,27 @@
 {{-- front end js --}}
 
 <script>
+    // to make input field outline visible
+    document.addEventListener('livewire:init', function() {
+        Livewire.hook('morph.updated', ({ el, component }) => {
+                document.querySelectorAll('.form-outline').forEach(outline => {
+                    new mdb.Input(outline).init();
+                });
+        })
+    })
+
+
+
+
     document.addEventListener('livewire:init', () => {
     Livewire.on('getFrontCardData', function(data){
         var c = document.getElementById("myCanvas");
         var ctx = c.getContext("2d");
+
         ctx.clearRect(0, 0, c.width, c.height);
+
         data[0].forEach(item => {
-        console.log(item)
+            console.log(item)
             let nam = item.field_value;
             let font = `${item.font_type} ${item.font_size}px ${item.font_family}`;
             
@@ -31,5 +45,5 @@
         });
     }); 
 });
- 
+
 </script>

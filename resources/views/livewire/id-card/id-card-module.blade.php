@@ -26,7 +26,7 @@
                                 <div>
                                     <canvas id="myCanvas" width="385px" height="500"
                                         class="position-absolute top-0 start-0 card-img">
-                                        Your browser does not support the HTML canvas tag.
+
                                     </canvas>
                                 </div>
                             </div>
@@ -154,14 +154,18 @@
                                 </tbody>
                             </table>
 
+                            <div class="text-center my-5">
+                                <a href="{{route('/pdf')}}">GENERATE</a>
+                            </div>
+
 
                         </div>
                     </div>
                 </div>
 
                 <div class="text-center my-5">
-                    <button type="button" class="btn custom-btn text-dark fw-bold w-50 p-3" data-mdb-ripple-init
-                        data-mdb-ripple-color="dark">SUBMIT CARD</button>
+                    <button wire:click="generatePdf" type="button" class="btn custom-btn text-dark fw-bold w-50 p-3"
+                        data-mdb-ripple-init data-mdb-ripple-color="dark">SUBMIT CARD</button>
                 </div>
             </div>
         </div>

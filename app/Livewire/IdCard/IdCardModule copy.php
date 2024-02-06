@@ -7,15 +7,12 @@ use App\Models\Card;
 use Livewire\Component;
 use Livewire\Attributes\Validate;
 
-
 class IdCardModule extends Component
 {
     public $asignTemplate;
     public $frontImage = true;
     public $frontPageInfo = [];
-    public $mode = 'add';
-
-    protected $listeners = ['getIdCardTemplate', 'getFrontCardData'];
+    public $backPageInfo = [];
 
     #[Validate(
         [
@@ -49,6 +46,11 @@ class IdCardModule extends Component
         'font_family' => '',
     ];
 
+    public $mode = 'add';
+
+
+
+    protected $listeners = ['getIdCardTemplate', 'getFrontCardData'];
 
     public function render()
     {
@@ -101,7 +103,6 @@ class IdCardModule extends Component
     public function assignCardData()
     {
         $this->validate();
-
         if ($this->mode == 'update') {
             $index = array_search($this->state['id'], array_column($this->frontPageInfo, 'id'));
             if ($index !== false) {
@@ -121,8 +122,6 @@ class IdCardModule extends Component
     {
         $filteredData = array_filter($this->frontPageInfo, fn ($item) => $item['id'] !== $id);
         $this->frontPageInfo = $filteredData;
-
-        $this->dispatch("getFrontCardData", $this->frontPageInfo);
     }
 
     public function editItem($id)
