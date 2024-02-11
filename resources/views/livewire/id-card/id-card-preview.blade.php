@@ -79,8 +79,7 @@
                 <th>{{$item['field_name']}}</th>
                 <td><input wire:model.live="frontPageInfo.{{$key}}.font_size" type="number" class="form-control"
                         value="0"></td>
-                <td><input wire:model.live.debounce.600ms="frontPageInfo.{{$key}}.x_pos" type="number"
-                        class="form-control">
+                <td><input wire:model.live="frontPageInfo.{{$key}}.x_pos" type="number" class="form-control">
                 </td>
                 <td> <input wire:model.live="frontPageInfo.{{$key}}.y_pos" type="number" class="form-control"></td>
                 <td class="px-auto">

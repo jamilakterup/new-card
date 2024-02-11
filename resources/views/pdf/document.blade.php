@@ -1,19 +1,37 @@
-<div>
-    <h1>Hello World</h1>
+<!DOCTYPE html>
+<html lang="en">
 
-    <table>
-        <tr>
-            <td>{{ $foo }}</td>
-        </tr>
-    </table>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
 
-    <html-separator />
 
-    <table>
-        <tr>
-            <td>{{ $bar }}</td>
-        </tr>
-    </table>
+</head>
 
-    <html-separator />
-</div>
+<body>
+    <div>
+        <div class="img-div">
+
+            <p class="text">121260</p>
+        </div>
+        <table>
+            <tr>
+                <td>{{ $foo }}</td>
+            </tr>
+        </table>
+
+        <html-separator />
+
+        <table>
+            <tr>
+                <td>{{ $bar }}</td>
+            </tr>
+        </table>
+
+        <html-separator />
+    </div>
+</body>
+
+</html>

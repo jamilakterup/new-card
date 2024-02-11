@@ -12,7 +12,7 @@
 <!-- Favicon icon -->
 <link rel="icon" type="image/png" sizes="16x16" href="{{asset('assets/plugins/images/favicon.png')}}">
 <!-- Custom CSS -->
-<link href="{{asset('asstes/css/style.min.css')}}" rel="stylesheet">
+<link href="{{asset('assets/css/style.min.css')}}" rel="stylesheet">
 {{--
 <link href="{{asset('style.css')}}" rel="stylesheet"> --}}
 @vite(['resources/sass/_card.scss'])

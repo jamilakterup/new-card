@@ -1,6 +1,6 @@
 <!-- All Jquery -->
 <!-- ============================================================== -->
-<script src="{{asset('asstes/plugins/bower_components/jquery/dist/jquery.min.js')}}"></script>
+<script src="{{asset('assets/plugins/bower_components/jquery/dist/jquery.min.js')}}"></script>
 <!-- Bootstrap tether Core JavaScript -->
 <script src="{{asset('assets/bootstrap/dist/js/bootstrap.bundle.min.js')}}"></script>
 <script src="{{asset('assets/js/app-style-switcher.js')}}"></script>

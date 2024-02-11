@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\CardController;
+use App\Http\Controllers\HandleGenerate;
 // use App\Http\Controllers\DesignController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\TestController;
@@ -19,7 +20,7 @@ use App\Livewire\IdCard\IdCardModule;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return 'ddas';
 });
 
 Route::middleware('auth')->group(function () {
@@ -53,3 +54,6 @@ Route::middleware(['auth', 'verified'])->group(function () {
 });
 
 Route::get('/pdf', [TestController::class, 'generatePdf'])->name('/pdf');
+
+
+Route::resource('design/submit', HandleGenerate::class);

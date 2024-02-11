@@ -3,19 +3,21 @@
 namespace App\Livewire\IdCard;
 
 use App\Models\Card;
-// use Livewire\Attributes\On;
+use App\Models\CardInfo;
 use Livewire\Component;
 use Livewire\Attributes\Validate;
 
 
 class IdCardModule extends Component
 {
-    public $asignTemplate;
+    public $cardModel;
     public $frontImage = true;
     public $frontPageInfo = [];
+    public $backPageInfo = [];
     public $mode = 'add';
+    public $prevPosition = [];
 
-    protected $listeners = ['getIdCardTemplate', 'getFrontCardData'];
+    protected $listeners = ['getIdCardTemplate', 'getCardData'];
 
     #[Validate(
         [
@@ -41,7 +43,7 @@ class IdCardModule extends Component
     public $state = [
         'field_name' => '',
         'x_pos' => 30,
-        'y_pos' => 30,
+        'y_pos' => 50,
         'field_type' => '',
         'field_value' => '',
         'font_size' => '',
@@ -57,7 +59,7 @@ class IdCardModule extends Component
 
     public function getIdCardTemplate($tempId)
     {
-        $this->asignTemplate = Card::find($tempId);
+        $this->cardModel = Card::find($tempId);
         $this->reset('frontImage');
     }
 
@@ -65,34 +67,66 @@ class IdCardModule extends Component
     {
         if ($part == 'front') {
             $this->frontImage = true;
+            $this->dispatch("loadCanvasImage", $this->cardModel->front_image);
+            $this->dispatch("getCardData", $this->frontPageInfo);
+            $this->prevPosition = [30, 50];
         } else {
             $this->frontImage = false;
+            $this->dispatch("loadCanvasImage", $this->cardModel->back_image);
+            $this->dispatch("getCardData", $this->backPageInfo);
+            $this->prevPosition = [30, 50];
         }
     }
 
-    public function getFrontCardData($data)
+    public function getCardData($data)
     {
-        // dd($data);
-        $this->frontPageInfo = $data;
+        if ($this->frontImage == true) {
+            if ($data) {
+                $this->frontPageInfo = $data;
+            }
+        } else {
+            if ($data) {
+                $this->backPageInfo = $data;
+            }
+        }
     }
 
 
 
     public function updatedFrontPageInfo()
     {
-        $this->dispatch("getFrontCardData", $this->frontPageInfo);
+        if ($this->frontImage == true) {
+            $this->dispatch("getCardData", $this->frontPageInfo);
+            $this->prevPosition = [end($this->frontPageInfo)['x_pos'], end($this->frontPageInfo)['y_pos'] + 20];
+        }
+    }
+
+    public function updatedBackPageInfo()
+    {
+        if ($this->frontImage == false) {
+            $this->dispatch("getCardData", $this->backPageInfo);
+            $this->prevPosition = [end($this->backPageInfo)['x_pos'], end($this->backPageInfo)['y_pos'] + 20];
+        }
     }
 
 
-
     // get unique id to add or delete data
-    public function getUniqueId($frontPageInfo)
+    public function getUniqueId($frontPageInfo = null, $backPageInfo = null)
     {
-        if (is_array($frontPageInfo) && !empty($frontPageInfo)) {
-            $maxId = max(array_column($frontPageInfo, 'id'));
-            return $maxId + 1;
+        if ($this->frontImage == true) {
+            if (is_array($frontPageInfo) && !empty($frontPageInfo)) {
+                $maxId = max(array_column($frontPageInfo, 'id'));
+                return $maxId + 1;
+            } else {
+                return 1;
+            }
         } else {
-            return 1;
+            if (is_array($backPageInfo) && !empty($backPageInfo)) {
+                $maxId = max(array_column($backPageInfo, 'id'));
+                return $maxId + 1;
+            } else {
+                return 1;
+            }
         }
     }
 
@@ -102,18 +136,47 @@ class IdCardModule extends Component
     {
         $this->validate();
 
-        if ($this->mode == 'update') {
-            $index = array_search($this->state['id'], array_column($this->frontPageInfo, 'id'));
-            if ($index !== false) {
-                $this->frontPageInfo[$index] = $this->state;
+        if ($this->frontImage == true) {
+            if ($this->mode == 'update') {
+                $index = array_search($this->state['id'], array_column($this->frontPageInfo, 'id'));
+                if ($index !== false) {
+                    $this->frontPageInfo[$index] = $this->state;
+                }
+            } else {
+                $newId = $this->getUniqueId($this->frontPageInfo);
+                $margedData = array_merge($this->state, ['id' => $newId]);
+
+                if (count($this->prevPosition)) {
+                    // set prev position
+                    $margedData['x_pos'] = $this->prevPosition[0];
+                    $margedData['y_pos'] = $this->prevPosition[1];
+                }
+
+                $this->frontPageInfo[] = $margedData;
             }
+            $this->dispatch("getCardData", $this->frontPageInfo);
         } else {
-            $newId = $this->getUniqueId($this->frontPageInfo);
-            $margedData = array_merge($this->state, ['id' => $newId]);
-            $this->frontPageInfo[] = $margedData;
+            if ($this->mode == 'update') {
+                $index = array_search($this->state['id'], array_column($this->backPageInfo, 'id'));
+                if ($index !== false) {
+                    $this->backPageInfo[$index] = $this->state;
+                }
+            } else {
+                $newId = $this->getUniqueId(null, $this->backPageInfo);
+                $margedData = array_merge($this->state, ['id' => $newId]);
+
+                if (count($this->prevPosition)) {
+                    // set prev position
+                    $margedData['x_pos'] = $this->prevPosition[0];
+                    $margedData['y_pos'] = $this->prevPosition[1];
+                }
+
+                $this->backPageInfo[] = $margedData;
+            }
+            $this->dispatch("getCardData", $this->backPageInfo);
         }
-        $this->dispatch("getFrontCardData", $this->frontPageInfo);
         $this->reset('state');
+        $this->reset('mode');
     }
 
     // delete function
@@ -122,7 +185,7 @@ class IdCardModule extends Component
         $filteredData = array_filter($this->frontPageInfo, fn ($item) => $item['id'] !== $id);
         $this->frontPageInfo = $filteredData;
 
-        $this->dispatch("getFrontCardData", $this->frontPageInfo);
+        $this->dispatch("getCardData", $this->frontPageInfo);
     }
 
     public function editItem($id)
@@ -134,5 +197,17 @@ class IdCardModule extends Component
             $filteredData = reset($filteredData);
             $this->state = $filteredData;
         }
+    }
+
+    // database update
+    public function saveCardInfo()
+    {
+        CardInfo::updateOrCreate(
+            ['card_id' => $this->cardModel->id],
+            [
+                'front_page_info' => json_encode($this->frontPageInfo),
+                'back_page_info' => json_encode($this->backPageInfo),
+            ]
+        );
     }
 }

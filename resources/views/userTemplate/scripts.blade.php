@@ -10,7 +10,7 @@
 
 
 <!-- All Jquery -->
-<script src="{{asset('asstes/plugins/bower_components/jquery/dist/jquery.min.js')}}"></script>
+<script src="{{asset('assets/plugins/bower_components/jquery/dist/jquery.min.js')}}"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
 
 {{-- front end js --}}
@@ -26,24 +26,66 @@
     })
 
 
+    // document.addEventListener('livewire:init', () => {
+    // Livewire.on('getFrontCardData', function(data){
+    //     var c = document.getElementById("myCanvas");
+    //     var ctx = c.getContext("2d");
+    //     ctx.clearRect(0, 0, c.width, c.height);
 
+    //     var img = document.getElementById("canvas-image");
+    //     ctx.drawImage(img,0,0,204.095,323.53);
 
-    document.addEventListener('livewire:init', () => {
-    Livewire.on('getFrontCardData', function(data){
-        var c = document.getElementById("myCanvas");
-        var ctx = c.getContext("2d");
-
-        ctx.clearRect(0, 0, c.width, c.height);
-
-        data[0].forEach(item => {
-            console.log(item)
-            let nam = item.field_value;
-            let font = `${item.font_type} ${item.font_size}px ${item.font_family}`;
+    //     data[0].forEach(item => {
+    //         console.log(item)
+    //         let nam = item.field_value;
+    //         let font = `${item.font_type} ${item.font_size}px ${item.font_family}`;
             
-            ctx.font = font;
-            ctx.fillText(nam, item.x_pos, item.y_pos);
-        });
+    //         ctx.font = font;
+    //         ctx.fillText(nam, item.x_pos, item.y_pos);
+    //     });
+    // }); 
+// });
+
+
+document.addEventListener('livewire:init', () => {
+    var imagePath = '';
+    var c = document.getElementById("myCanvas");
+    var ctx = c.getContext("2d");
+    var imgEl = document.createElement("img");
+    var fields = null;
+
+    
+    Livewire.on('getCardData', function(data){
+        if(data[0]){
+            fields = data[0];
+
+            ctx.clearRect(0, 0, c.width, c.height);
+
+            ctx.drawImage(imgEl,0,0,204.095,323.53);
+
+            fillAllFields(fields, ctx);
+            
+        }
+    }); 
+
+    Livewire.on('loadCanvasImage', function(data){
+        imagePath = data[0];
+        
+        imgEl.src = '/storage/'+imagePath
+        ctx.drawImage(imgEl,0,0,204.095,323.53);
+
+        fillAllFields(fields, ctx);
     }); 
 });
+
+function fillAllFields(fields, ctx){
+
+    fields.forEach(item => {
+        let nam = item.field_value;
+        let font = `${item.font_type} ${item.font_size}px ${item.font_family}`;
+        ctx.font = font;
+        ctx.fillText(nam, item.x_pos, item.y_pos);
+    });
+}
 
 </script>

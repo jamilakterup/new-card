@@ -17,37 +17,42 @@
                 <div class="container">
                     {{-- {{var_export($frontPageInfo)}} --}}
                     <div class="row">
-                        <div class="col-5">
-                            <div class="card card-template">
-                                @if (!is_null($asignTemplate))
-                                <img src="{{$frontImage ? Storage::url($asignTemplate->front_image): Storage::url($asignTemplate->back_image)}}"
-                                    alt="card-img" height="500px" class="card-img">
+                        <div class="col-4 ms-4">
+                            <div class="card-template">
+                                @if (!is_null($cardModel))
+                                <img id="canvas-image"
+                                    src="{{$frontImage ? Storage::url($cardModel->front_image): Storage::url($cardModel->back_image)}}"
+                                    alt="card-img" class="d-none">
                                 @endif
                                 <div>
-                                    <canvas id="myCanvas" width="385px" height="500"
-                                        class="position-absolute top-0 start-0 card-img">
+                                    <canvas id="myCanvas" width="204.095" height="323.53"
+                                        style="transform: scale(1.2) translate(45px,28px);" class="border">
 
                                     </canvas>
                                 </div>
                             </div>
-                            <div class="d-flex justify-content-center gap-3 my-3">
-                                @if (!is_null($asignTemplate))
+                            <div class="d-flex justify-content-center gap-3" style="margin-top: 80px">
+                                @if (!is_null($cardModel))
                                 <img wire:click="activeCardImage('front')"
-                                    src="{{Storage::url($asignTemplate->front_image)}}" alt="front_image"
+                                    src="{{Storage::url($cardModel->front_image)}}" alt="front_image"
                                     class="{{$frontImage ? 'active-card' : ''}}" role="button" height="80px"
                                     width="80px">
 
-                                <img wire:click="activeCardImage('back')"
-                                    src="{{Storage::url($asignTemplate->back_image)}}" alt="back_image" height="80px"
-                                    width="80px" role="button" class="{{$frontImage ? '': 'active-card'}}">
+                                <img wire:click="activeCardImage('back')" src="{{Storage::url($cardModel->back_image)}}"
+                                    alt="back_image" height="80px" width="80px" role="button"
+                                    class="{{$frontImage ? '': 'active-card'}}">
                                 @endif
                             </div>
                         </div>
 
                         {{-- @livewire('id-card.id-card-preview') --}}
-                        <div class="col-7">
+                        <div class="col-7 ms-auto">
                             <div class="card">
+                                @if ($frontImage)
                                 <h4 class="card-title my-4 text-center">Front page info</h4>
+                                @else
+                                <h4 class="card-title my-4 text-center">back page info</h4>
+                                @endif
                                 {{-- onsubmit="getFormData(this)" --}}
                                 <div class="card-body">
                                     <form wire:submit="assignCardData" class="row g-2">
@@ -127,12 +132,13 @@
                                     <tr>
                                         <th scope="col" class="p-2 col-2">Field-Name</th>
                                         <th scope="col" class="p-2">Font Size</th>
-                                        <th scope="col" class="p-2">X-Axiss</th>
-                                        <th scope="col" class="p-2">Y-Axiss</th>
+                                        <th scope="col" class="p-2">X-Axis</th>
+                                        <th scope="col" class="p-2">Y-Axis</th>
                                         <th scope="col" class="p-2 col-2">Action</th>
                                     </tr>
                                 </thead>
                                 <tbody>
+                                    @if ($frontImage)
                                     @foreach ($frontPageInfo as $key => $item)
                                     <tr class="align-middle">
                                         <th>{{$item['field_name']}}</th>
@@ -151,6 +157,26 @@
                                         </td>
                                     </tr>
                                     @endforeach
+                                    @else
+                                    @foreach ($backPageInfo as $key => $item)
+                                    <tr class="align-middle">
+                                        <th>{{$item['field_name']}}</th>
+                                        <td><input wire:model.live="backPageInfo.{{$key}}.font_size" type="number"
+                                                class="form-control" value="0"></td>
+                                        <td><input wire:model.live.debounce.600ms="backPageInfo.{{$key}}.x_pos"
+                                                type="number" class="form-control">
+                                        </td>
+                                        <td> <input wire:model.live="backPageInfo.{{$key}}.y_pos" type="number"
+                                                class="form-control"></td>
+                                        <td class="px-auto">
+                                            <i wire:click="editItem({{$item['id']}})"
+                                                class="fa-solid fa-pen-to-square me-2 fs-6"></i>
+                                            <i wire:click="deleteItem({{$item['id']}})"
+                                                class="fa-solid fa-trash-can fs-6"></i>
+                                        </td>
+                                    </tr>
+                                    @endforeach
+                                    @endif
                                 </tbody>
                             </table>
 
@@ -164,8 +190,8 @@
                 </div>
 
                 <div class="text-center my-5">
-                    <button wire:click="generatePdf" type="button" class="btn custom-btn text-dark fw-bold w-50 p-3"
-                        data-mdb-ripple-init data-mdb-ripple-color="dark">SUBMIT CARD</button>
+                    <button type="submit" wire:click="saveCardInfo" class="btn bg-light-subtle"
+                        data-mdb-ripple-init>SUBMIT CARD</button>
                 </div>
             </div>
         </div>

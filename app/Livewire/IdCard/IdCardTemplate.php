@@ -9,6 +9,7 @@ class IdCardTemplate extends Component
 {
     public $selectedCard;
 
+
     public function render()
     {
         $cards = Card::all();
@@ -18,7 +19,10 @@ class IdCardTemplate extends Component
 
     public function asignIdCard($tempId)
     {
+        $card = Card::find($tempId);
+
         $this->dispatch("getIdCardTemplate", $tempId)->to(IdCardModule::class);
+        $this->dispatch("loadCanvasImage", $card->front_image);
         if ($tempId) {
             $this->selectedCard = $tempId;
         } else {
