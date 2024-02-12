@@ -10,6 +10,7 @@ use Mpdf;
 class TestController extends Controller
 {
 
+
     public function generatePdf()
     {
         $cardInfo = CardInfo::all();

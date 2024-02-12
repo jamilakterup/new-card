@@ -52,8 +52,3 @@ Route::middleware(['auth', 'verified'])->group(function () {
     // Route::resource('design', DesignController::class);
     Route::get('/design', IdCardModule::class);
 });
-
-Route::get('/pdf', [TestController::class, 'generatePdf'])->name('/pdf');
-
-
-Route::resource('design/submit', HandleGenerate::class);
