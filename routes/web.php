@@ -1,8 +1,6 @@
 <?php
 
 use App\Http\Controllers\CardController;
-use App\Http\Controllers\HandleGenerate;
-// use App\Http\Controllers\DesignController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\TestController;
 use Illuminate\Support\Facades\Route;
@@ -52,3 +50,5 @@ Route::middleware(['auth', 'verified'])->group(function () {
     // Route::resource('design', DesignController::class);
     Route::get('/design', IdCardModule::class);
 });
+
+Route::get('/pdf', [TestController::class, 'generatePdf'])->name('/pdf');
