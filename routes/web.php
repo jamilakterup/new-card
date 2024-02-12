@@ -1,8 +1,8 @@
 <?php
 
 use App\Http\Controllers\CardController;
+use App\Http\Controllers\PdfController;
 use App\Http\Controllers\ProfileController;
-use App\Http\Controllers\TestController;
 use Illuminate\Support\Facades\Route;
 use App\Livewire\IdCard\IdCardModule;
 
@@ -51,4 +51,4 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/design', IdCardModule::class);
 });
 
-Route::get('/pdf', [TestController::class, 'generatePdf'])->name('/pdf');
+Route::get('/pdf', [PdfController::class, 'generatePdf'])->name('/pdf');

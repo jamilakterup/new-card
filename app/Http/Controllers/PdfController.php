@@ -6,11 +6,8 @@ use App\Models\CardInfo;
 use Illuminate\Http\Request;
 use Mpdf;
 
-
-class TestController extends Controller
+class PdfController extends Controller
 {
-
-
     public function generatePdf()
     {
         $cardInfo = CardInfo::all();
