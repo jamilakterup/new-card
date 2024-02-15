@@ -21,12 +21,12 @@
             <td><img src="{{Storage::url($card->front_image)}}" style="height: 150px; width:150px" alt=""></td>
             <td><img src=" {{Storage::url($card->back_image)}}" style="height: 150px; width:150px" alt=""></td>
             <td>
-                <a href="{{route('card.edit',$card->id)}}" class="btn btn-success mt-5">Edit</a>
+                <a href="{{route('dashboard.edit',$card->id)}}" class="btn btn-success mt-5">Edit</a>
 
                 <button onclick="deleteRow('delete-form-{{$card->id}}')" type="button"
                     class="btn btn-danger">Delete</button>
 
-                <form action="{{route('card.destroy',$card->id)}}" id="delete-form-{{$card->id}}" method="POST">
+                <form action="{{route('dashboard.destroy',$card->id)}}" id="delete-form-{{$card->id}}" method="POST">
                     @csrf
                     @method('delete')
                 </form>

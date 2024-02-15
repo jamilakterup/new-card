@@ -3,8 +3,8 @@
 @section('content')
 
 <div class="container">
-    <form action="{{ isset($row['id']) ? route('card.update', $row['id']) : route('card.store') }}" method="post"
-        enctype="multipart/form-data">
+    <form action="{{ isset($row['id']) ? route('dashboard.update', $row['id']) : route('dashboard.store') }}"
+        method="post" enctype="multipart/form-data">
         @csrf
         @if(isset($row['id']))
         @method('put')

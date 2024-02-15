@@ -68,7 +68,7 @@ class CardController extends Controller
 
         $cards->save();
 
-        return redirect()->route('card.index')->with('success', 'card has been uploaded successfully');
+        return redirect()->route('dashboard.index')->with('success', 'card has been uploaded successfully');
     }
 
     /**
@@ -130,7 +130,7 @@ class CardController extends Controller
 
         $cards->save();
 
-        return redirect()->route('card.index')->with('info', 'card has been updated successfully');
+        return redirect()->route('dashboard.index')->with('info', 'card has been updated successfully');
     }
 
     /**
@@ -141,6 +141,6 @@ class CardController extends Controller
         $row = Card::find($id);
         $row->delete();
 
-        return redirect()->route('card.index')->with('message', 'Deleted successfully');
+        return redirect()->route('dashboard.index')->with('message', 'Deleted successfully');
     }
 }

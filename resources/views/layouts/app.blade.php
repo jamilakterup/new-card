@@ -6,6 +6,7 @@
 </head>
 
 <body>
+    @include('userTemplate.navbar')
 
     {{ $slot }}
 

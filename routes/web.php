@@ -35,14 +35,14 @@ require __DIR__ . '/auth.php';
 // })->middleware(['auth', 'verified'])->name('design');
 
 // admin dashboard
-Route::get('/dashboard', function () {
-    return view('adminTemplate.pages.dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
+// Route::get('/dashboard', function () {
+//     return view('adminTemplate.pages.dashboard');
+// })->middleware(['auth', 'verified'])->name('dashboard');
 
 
 // card crud ================
 Route::middleware(['auth', 'verified'])->group(function () {
-    Route::resource('dashboard/card', CardController::class);
+    Route::resource('dashboard', CardController::class);
 });
 
 // design route ================

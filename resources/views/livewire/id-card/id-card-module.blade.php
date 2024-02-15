@@ -1,13 +1,4 @@
 <main>
-    <nav class="navbar">
-        <div class="container-fluid px-4">
-            <a class="navbar-brand text-white">CARD GENERATOR</a>
-            <form action="{{route('logout')}}" method="POST">
-                @csrf
-                <button type="submit" class="btn bg-light-subtle" data-mdb-ripple-init>LOG-OUT</button>
-            </form>
-        </div>
-    </nav>
 
     <div class="container-fluid h-100">
         <div class="row h-100">
@@ -15,7 +6,6 @@
 
             <div class="col-9 py-4">
                 <div class="container">
-                    {{-- {{var_export($frontPageInfo)}} --}}
                     <div class="row">
                         <div class="col-4 ms-4">
                             <div class="card-template">
@@ -45,7 +35,6 @@
                             </div>
                         </div>
 
-                        {{-- @livewire('id-card.id-card-preview') --}}
                         <div class="col-7 ms-auto">
                             <div class="card">
                                 @if ($frontImage)
@@ -53,7 +42,6 @@
                                 @else
                                 <h4 class="card-title my-4 text-center">back page info</h4>
                                 @endif
-                                {{-- onsubmit="getFormData(this)" --}}
                                 <div class="card-body">
                                     <form wire:submit="assignCardData" class="row g-2">
                                         <div class="col-4">
@@ -116,8 +104,8 @@
                                                 }}</small> @enderror
                                         </div>
                                         <div class="col-3">
-                                            <button type="submit" class="btn custom-btn text-white ms-2"
-                                                data-mdb-ripple-init data-mdb-ripple-color="dark">Add
+                                            <button type="submit" class="btn btn-success ms-2" data-mdb-ripple-init
+                                                data-mdb-ripple-color="dark">Add
                                                 Field</button>
                                         </div>
                                     </form>

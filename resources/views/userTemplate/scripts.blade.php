@@ -26,27 +26,6 @@
     })
 
 
-    // document.addEventListener('livewire:init', () => {
-    // Livewire.on('getFrontCardData', function(data){
-    //     var c = document.getElementById("myCanvas");
-    //     var ctx = c.getContext("2d");
-    //     ctx.clearRect(0, 0, c.width, c.height);
-
-    //     var img = document.getElementById("canvas-image");
-    //     ctx.drawImage(img,0,0,204.095,323.53);
-
-    //     data[0].forEach(item => {
-    //         console.log(item)
-    //         let nam = item.field_value;
-    //         let font = `${item.font_type} ${item.font_size}px ${item.font_family}`;
-            
-    //         ctx.font = font;
-    //         ctx.fillText(nam, item.x_pos, item.y_pos);
-    //     });
-    // }); 
-// });
-
-
 document.addEventListener('livewire:init', () => {
     var imagePath = '';
     var c = document.getElementById("myCanvas");
