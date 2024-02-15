@@ -6,16 +6,19 @@ use App\Models\Card;
 use App\Models\CardInfo;
 use Livewire\Component;
 use Livewire\Attributes\Validate;
+use Livewire\WithFileUploads;
 
 
 class IdCardModule extends Component
 {
+    use WithFileUploads;
     public $cardModel;
     public $frontImage = true;
     public $frontPageInfo = [];
     public $backPageInfo = [];
     public $mode = 'add';
     public $prevPosition = [];
+    public $csvFile;
 
     protected $listeners = ['getIdCardTemplate', 'getCardData'];
 
@@ -51,18 +54,20 @@ class IdCardModule extends Component
         'font_family' => '',
     ];
 
-
+    // render file to view
     public function render()
     {
         return view('livewire.id-card.id-card-module');
     }
 
+    // get active card img
     public function getIdCardTemplate($tempId)
     {
         $this->cardModel = Card::find($tempId);
         $this->reset('frontImage');
     }
 
+    // active card
     public function activeCardImage($part)
     {
         if ($part == 'front') {
@@ -78,6 +83,7 @@ class IdCardModule extends Component
         }
     }
 
+    // get card data
     public function getCardData($data)
     {
         if ($this->frontImage == true) {
@@ -92,7 +98,7 @@ class IdCardModule extends Component
     }
 
 
-
+    // update if any changes happend
     public function updatedFrontPageInfo()
     {
         if ($this->frontImage == true) {
@@ -101,6 +107,7 @@ class IdCardModule extends Component
         }
     }
 
+    // update if any changes happend
     public function updatedBackPageInfo()
     {
         if ($this->frontImage == false) {
@@ -179,19 +186,31 @@ class IdCardModule extends Component
         $this->reset('mode');
     }
 
-    // delete function
+    // delete row
     public function deleteItem($id)
     {
-        $filteredData = array_filter($this->frontPageInfo, fn ($item) => $item['id'] !== $id);
-        $this->frontPageInfo = $filteredData;
+        if ($this->frontImage == true) {
+            $filteredData = array_filter($this->frontPageInfo, fn ($item) => $item['id'] !== $id);
+            $this->frontPageInfo = $filteredData;
 
-        $this->dispatch("getCardData", $this->frontPageInfo);
+            $this->dispatch("getCardData", $this->frontPageInfo);
+        } else {
+            $filteredData = array_filter($this->backPageInfo, fn ($item) => $item['id'] !== $id);
+            $this->backPageInfo = $filteredData;
+
+            $this->dispatch("getCardData", $this->backPageInfo);
+        }
     }
 
+    // edit row
     public function editItem($id)
     {
         $this->mode = 'update';
-        $filteredData = array_filter($this->frontPageInfo, fn ($item) => $item['id'] === $id);
+        if ($this->frontImage == true) {
+            $filteredData = array_filter($this->frontPageInfo, fn ($item) => $item['id'] === $id);
+        } else {
+            $filteredData = array_filter($this->backPageInfo, fn ($item) => $item['id'] === $id);
+        }
 
         if (!empty($filteredData)) {
             $filteredData = reset($filteredData);
@@ -202,12 +221,18 @@ class IdCardModule extends Component
     // database update
     public function saveCardInfo()
     {
-        CardInfo::updateOrCreate(
+        // $fileName = 'csvFile_' . uniqid() . '.' . $this->csvFile->getClientOriginalExtension();
+        // $this->csvFile->storeAs('files', $fileName, 'public');
+
+        $card = CardInfo::updateOrCreate(
             ['card_id' => $this->cardModel->id],
             [
                 'front_page_info' => json_encode($this->frontPageInfo),
                 'back_page_info' => json_encode($this->backPageInfo),
+                // 'csv_file' => json_encode('files/' . $fileName),
             ]
         );
+
+        return redirect()->route('design/pdf', $card->card_id);
     }
 }

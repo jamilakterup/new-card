@@ -32,6 +32,8 @@ class CardController extends Controller
         $this->validate($request, [
             'front_image' => 'required|image|mimes:jpeg,png,jpg|max:2048',
             'back_image' => 'required|image|mimes:jpeg,png,jpg|max:2048',
+            'front_pdf' => 'required|mimes:pdf',
+            'back_pdf' => 'required|mimes:pdf',
         ]);
 
         $cards = new Card();
@@ -48,6 +50,20 @@ class CardController extends Controller
             $backFileName = 'back_' . uniqid() . "." . $backFileExt;
             $backImage->storeAs('cards', $backFileName, 'public');
             $cards->back_image = 'cards/' . $backFileName;
+        }
+        if ($request->hasFile('front_pdf')) {
+            $frontPDF = $request->file('front_pdf');
+            $frontPdfExt = $frontPDF->getClientOriginalExtension();
+            $frontPdfName = 'front_' . uniqid() . "." . $frontPdfExt;
+            $frontPDF->storeAs('cards', $frontPdfName, 'public');
+            $cards->front_pdf = 'cards/' . $frontPdfName;
+        }
+        if ($request->hasFile('back_pdf')) {
+            $backPDF = $request->file('back_pdf');
+            $backPdfExt = $backPDF->getClientOriginalExtension();
+            $backPdfName = 'back_' . uniqid() . "." . $backPdfExt;
+            $backPDF->storeAs('cards', $backPdfName, 'public');
+            $cards->back_pdf = 'cards/' . $backPdfName;
         }
 
         $cards->save();
@@ -96,6 +112,20 @@ class CardController extends Controller
             $backFileName = 'back_' . uniqid() . "." . $backFileExt;
             $backImage->storeAs('cards', $backFileName, 'public');
             $cards->back_image = 'cards/' . $backFileName;
+        }
+        if ($request->hasFile('front_pdf')) {
+            $frontPDF = $request->file('front_pdf');
+            $frontPdfExt = $frontPDF->getClientOriginalExtension();
+            $frontPdfName = 'front_' . uniqid() . "." . $frontPdfExt;
+            $frontPDF->storeAs('cards', $frontPdfName, 'public');
+            $cards->front_pdf = 'cards/' . $frontPdfName;
+        }
+        if ($request->hasFile('back_pdf')) {
+            $backPDF = $request->file('back_pdf');
+            $backPdfExt = $backPDF->getClientOriginalExtension();
+            $backPdfName = 'back_' . uniqid() . "." . $backPdfExt;
+            $backPDF->storeAs('cards', $backPdfName, 'public');
+            $cards->back_pdf = 'cards/' . $backPdfName;
         }
 
         $cards->save();

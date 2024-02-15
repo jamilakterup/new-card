@@ -47,8 +47,10 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
 // design route ================
 Route::middleware(['auth', 'verified'])->group(function () {
-    // Route::resource('design', DesignController::class);
     Route::get('/design', IdCardModule::class);
+    Route::get('design/pdf/{id}', function ($card_id) {
+        return view('userTemplate.pages.pdfPage', compact('card_id'));
+    })->name('design/pdf');
 });
 
-Route::get('/pdf', [PdfController::class, 'generatePdf'])->name('/pdf');
+Route::post('/pdf', [PdfController::class, 'generatePdf'])->name('/pdf');

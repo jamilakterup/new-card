@@ -17,6 +17,7 @@ return new class extends Migration
             $table->foreignId('card_id');
             $table->json('front_page_info')->nullable();
             $table->json('back_page_info')->nullable();
+            // $table->json('csv_file')->nullable();
             $table->timestamps();
         });
     }

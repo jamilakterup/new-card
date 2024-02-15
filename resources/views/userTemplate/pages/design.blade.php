@@ -4,8 +4,6 @@
 @section('content')
 
 <section>
-    {{-- ================ include topnav ================== --}}
-    @include('userTemplate.navBar')
     {{-- main body section:: --}}
     <div class="container-fluid h-100">
         <div class="row h-100">

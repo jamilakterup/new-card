@@ -13,5 +13,6 @@ class CardInfo extends Model
         'card_id',
         'front_page_info',
         'back_page_info',
+        // 'csv_file',
     ];
 }

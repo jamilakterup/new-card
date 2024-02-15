@@ -110,7 +110,6 @@
                                             <select wire:model="state.font_family" class="form-select pe-0"
                                                 aria-label="Default select example">
                                                 <option selected>Font Family</option>
-                                                <option value="san">Sherif</option>
                                                 <option value="mono">Mono</option>
                                             </select>
                                             @error('state.font_family') <small class="text-danger">{{ $message
@@ -179,19 +178,14 @@
                                     @endif
                                 </tbody>
                             </table>
-
-                            <div class="text-center my-5">
-                                <a href="{{route('/pdf')}}">GENERATE</a>
-                            </div>
-
-
                         </div>
                     </div>
                 </div>
 
                 <div class="text-center my-5">
-                    <button type="submit" wire:click="saveCardInfo" class="btn bg-light-subtle"
-                        data-mdb-ripple-init>SUBMIT CARD</button>
+                    <button type="submit" wire:click="saveCardInfo" class="btn btn-success w-25"
+                        data-mdb-ripple-init>SUBMIT
+                        CARD Info</button>
                 </div>
             </div>
         </div>

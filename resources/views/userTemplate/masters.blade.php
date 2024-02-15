@@ -7,6 +7,7 @@
 
 <body>
 
+    @include('userTemplate.navBar')
 
     @yield('content')
 
