@@ -19,7 +19,8 @@ class IdCardModule extends Component
     public $mode = 'add';
     public $prevPosition = [];
     public $csvFile;
-
+    public $photo;
+    
     protected $listeners = ['getIdCardTemplate', 'getCardData'];
 
     #[Validate(
@@ -83,6 +84,12 @@ class IdCardModule extends Component
         }
     }
 
+
+    // public function updatedPhoto()
+    // {
+    //     $this->state['field_value'] = $this->photo;
+    // }
+
     // get card data
     public function getCardData($data)
     {
@@ -102,6 +109,7 @@ class IdCardModule extends Component
     public function updatedFrontPageInfo()
     {
         if ($this->frontImage == true) {
+            $this->state['field_value'] = $this->photo;
             $this->dispatch("getCardData", $this->frontPageInfo);
             $this->prevPosition = [end($this->frontPageInfo)['x_pos'], end($this->frontPageInfo)['y_pos'] + 20];
         }
@@ -141,6 +149,7 @@ class IdCardModule extends Component
     // add items to the array
     public function assignCardData()
     {
+
         $this->validate();
 
         if ($this->frontImage == true) {
@@ -151,10 +160,15 @@ class IdCardModule extends Component
                 }
             } else {
                 $newId = $this->getUniqueId($this->frontPageInfo);
+                if ($this->state['field_type'] == 'file' && isset($this->photo)) {
+                    $this->state['image_url'] = $this->photo->temporaryUrl();
+                }
                 $margedData = array_merge($this->state, ['id' => $newId]);
+
 
                 if (count($this->prevPosition)) {
                     // set prev position
+
                     $margedData['x_pos'] = $this->prevPosition[0];
                     $margedData['y_pos'] = $this->prevPosition[1];
                 }
@@ -229,7 +243,6 @@ class IdCardModule extends Component
             [
                 'front_page_info' => json_encode($this->frontPageInfo),
                 'back_page_info' => json_encode($this->backPageInfo),
-                // 'csv_file' => json_encode('files/' . $fileName),
             ]
         );
 

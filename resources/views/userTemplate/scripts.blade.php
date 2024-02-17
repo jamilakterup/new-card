@@ -43,7 +43,6 @@ document.addEventListener('livewire:init', () => {
             ctx.drawImage(imgEl,0,0,204.095,323.53);
 
             fillAllFields(fields, ctx);
-            
         }
     }); 
 
@@ -58,13 +57,23 @@ document.addEventListener('livewire:init', () => {
 });
 
 function fillAllFields(fields, ctx){
-
     fields.forEach(item => {
-        let nam = item.field_value;
-        let font = `${item.font_type} ${item.font_size}px ${item.font_family}`;
-        ctx.font = font;
-        ctx.fillText(nam, item.x_pos, item.y_pos);
-    });
+        console.log(item)
+            if(item['field_type']=='text'){
+                let nam = item.field_value;
+                let font = `${item.font_type} ${item.font_size}px ${item.font_family}`;
+                ctx.font = font;
+                ctx.fillText(nam, item.x_pos, item.y_pos);
+            }
+
+            if(item['field_type']=='file'){
+                var img = new Image();
+                img.onload = function() {
+                    ctx.drawImage(img, 2, 3,50,60);
+                };
+                img.src = item['image_url'];
+            }
+        });
 }
 
 </script>

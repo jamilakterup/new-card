@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Card;
+use App\Models\CardInfo;
 use Illuminate\Http\Request;
 
 class CardController extends Controller
@@ -140,6 +141,9 @@ class CardController extends Controller
     {
         $row = Card::find($id);
         $row->delete();
+
+        $cardInfo = CardInfo::find($id);
+        $cardInfo->delete();
 
         return redirect()->route('dashboard.index')->with('message', 'Deleted successfully');
     }
