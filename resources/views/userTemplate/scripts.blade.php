@@ -14,7 +14,7 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
 
 {{-- front end js --}}
-
+{{--
 <script>
     // to make input field outline visible
     document.addEventListener('livewire:init', function() {
@@ -51,14 +51,12 @@ document.addEventListener('livewire:init', () => {
         
         imgEl.src = '/storage/'+imagePath
         ctx.drawImage(imgEl,0,0,204.095,323.53);
-
         fillAllFields(fields, ctx);
     }); 
 });
 
 function fillAllFields(fields, ctx){
     fields.forEach(item => {
-        console.log(item)
             if(item['field_type']=='text'){
                 let nam = item.field_value;
                 let font = `${item.font_type} ${item.font_size}px ${item.font_family}`;
@@ -69,11 +67,11 @@ function fillAllFields(fields, ctx){
             if(item['field_type']=='file'){
                 var img = new Image();
                 img.onload = function() {
-                    ctx.drawImage(img, 2, 3,50,60);
+                    ctx.drawImage(img, item.x_pos, item.y_pos,item.width,item.height);
                 };
                 img.src = item['image_url'];
             }
         });
 }
 
-</script>
+</script> --}}

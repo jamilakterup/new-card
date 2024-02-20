@@ -14,12 +14,28 @@ class PdfController extends Controller
 {
     public function generatePdf(Request $request)
     {
+        $request->validate([
+            'csv' => ['required', 'mimes:csv'],
+            'images' => ['required'],
+        ]);
+
+        if ($files = $request->file('images')) {
+            foreach ($files as $file) {
+                $name = $file->getClientOriginalName();
+                $imageName =  $request->card_id . "_" . $name;
+                $imagePath = public_path("storage/temp");
+                $file->move($imagePath, $imageName);
+            }
+        }
+
+
+
         $file = $request->file('csv');
         $fileName = time() . '.csv';
         $file->storeAs("temp", $fileName, 'public');
         $filePath = public_path("storage/temp/$fileName");
 
-        $data = csvToArray($filePath);
+        $csvData = csvToArray($filePath);
 
         File::delete($filePath);
 
@@ -29,11 +45,12 @@ class PdfController extends Controller
         // dd($cardImg->front_pdf);
 
 
-        $cardInfo = CardInfo::find($request->card_id);
-        $cardData = json_decode($cardInfo, true);
 
-        $frontCardConfig = json_decode($cardData['front_page_info'], true);
-        $backCardConfig = json_decode($cardData['back_page_info'], true);
+        $cardInfo = CardInfo::where('card_id', $request->card_id)->first();
+        //$cardData = json_decode($cardInfo, true);
+
+        $frontCardConfig = json_decode($cardInfo->front_page_info, true);
+        $backCardConfig = json_decode($cardInfo->back_page_info, true);
 
 
 
@@ -43,7 +60,7 @@ class PdfController extends Controller
 
 
 
-        foreach ($data as $studentInfo) {
+        foreach ($csvData as $studentInfo) {
             $mpdf->AddPage();
             $pagecount = $mpdf->SetSourceFile(public_path() . '/storage/' . $cardImg->front_pdf);
             $tplId = $mpdf->ImportPage($pagecount);
@@ -58,13 +75,21 @@ class PdfController extends Controller
 
                 if (array_key_exists($config['field_name'], $studentInfo)) {
                     $value = $studentInfo[$config['field_name']];
+                    $mpdf->SetFont('lato', 'r', 6.5);
+                    if (substr($value, -4) === '.jpg') {
+                        $height = (int)$config['height'] * 0.265;
+                        $width = (int)$config['width'] * 0.265;
+
+                        $img_url = 'storage/temp/' . $request->card_id . '_' . $value;
+                        $mpdf->Image($img_url, $x_pos, $y_pos, $width, $height, 'jpg', '', true, false);
+                    } else {
+                        $mpdf->WriteText($x_pos, $y_pos, $value);
+                    }
                 }
-                $mpdf->SetFont('lato', 'r', 6.5);
-                $mpdf->WriteText($x_pos, $y_pos, $value);
             }
         }
 
-        foreach ($data as $studentInfo) {
+        foreach ($csvData as $studentInfo) {
             $mpdf->AddPage();
             $pagecount = $mpdf->SetSourceFile(public_path() . '/storage/' . $cardImg->back_pdf);
             $tplId = $mpdf->ImportPage($pagecount);
@@ -72,14 +97,15 @@ class PdfController extends Controller
             $mpdf->img_dpi = 96;
 
             foreach ($backCardConfig as $config) {
+
                 $x_pos = (int)$config['x_pos'] * 0.265;
                 $y_pos = (int)$config['y_pos'] * 0.265;
 
                 if (array_key_exists($config['field_name'], $studentInfo)) {
                     $value = $studentInfo[$config['field_name']];
+                    $mpdf->SetFont('lato', 'r', 6.5);
+                    $mpdf->WriteText($x_pos, $y_pos, $value);
                 }
-                $mpdf->SetFont('lato', 'r', 6.5);
-                $mpdf->WriteText($x_pos, $y_pos, $value);
             }
         }
 

@@ -20,8 +20,7 @@ class IdCardModule extends Component
     public $prevPosition = [];
     public $csvFile;
     public $photo;
-    
-    protected $listeners = ['getIdCardTemplate', 'getCardData'];
+
 
     #[Validate(
         [
@@ -48,11 +47,19 @@ class IdCardModule extends Component
         'field_name' => '',
         'x_pos' => 30,
         'y_pos' => 50,
+        'height' => '',
+        'width' => '',
         'field_type' => '',
         'field_value' => '',
         'font_size' => '',
         'font_type' => '',
         'font_family' => '',
+    ];
+
+    protected $listeners = [
+        'getIdCardTemplate',
+        'getCardData',
+
     ];
 
     // render file to view
@@ -61,10 +68,25 @@ class IdCardModule extends Component
         return view('livewire.id-card.id-card-module');
     }
 
+
     // get active card img
     public function getIdCardTemplate($tempId)
     {
         $this->cardModel = Card::find($tempId);
+        $cardInfo = CardInfo::where('card_id', $tempId)->first();
+        if ($cardInfo) {
+            $frontPageArr = json_decode($cardInfo->front_page_info, true);
+            $backPageArr = json_decode($cardInfo->back_page_info, true);
+
+            // dd($frontPageArr, $backPageArr);
+            $this->frontPageInfo = $frontPageArr;
+            $this->backPageInfo = $backPageArr;
+        } else {
+            $this->frontPageInfo = [];
+            $this->backPageInfo = [];
+        }
+        $this->dispatch("getCardData", $this->frontPageInfo);
+        $this->dispatch("getCardData", $this->backPageInfo);
         $this->reset('frontImage');
     }
 
@@ -83,12 +105,6 @@ class IdCardModule extends Component
             $this->prevPosition = [30, 50];
         }
     }
-
-
-    // public function updatedPhoto()
-    // {
-    //     $this->state['field_value'] = $this->photo;
-    // }
 
     // get card data
     public function getCardData($data)
@@ -109,9 +125,8 @@ class IdCardModule extends Component
     public function updatedFrontPageInfo()
     {
         if ($this->frontImage == true) {
-            $this->state['field_value'] = $this->photo;
             $this->dispatch("getCardData", $this->frontPageInfo);
-            $this->prevPosition = [end($this->frontPageInfo)['x_pos'], end($this->frontPageInfo)['y_pos'] + 20];
+            $this->prevPosition = [(int)end($this->frontPageInfo)['x_pos'], (int)end($this->frontPageInfo)['y_pos'] + 20];
         }
     }
 
@@ -120,7 +135,7 @@ class IdCardModule extends Component
     {
         if ($this->frontImage == false) {
             $this->dispatch("getCardData", $this->backPageInfo);
-            $this->prevPosition = [end($this->backPageInfo)['x_pos'], end($this->backPageInfo)['y_pos'] + 20];
+            $this->prevPosition = [(int)end($this->backPageInfo)['x_pos'], (int)end($this->backPageInfo)['y_pos'] + 20];
         }
     }
 
@@ -168,7 +183,6 @@ class IdCardModule extends Component
 
                 if (count($this->prevPosition)) {
                     // set prev position
-
                     $margedData['x_pos'] = $this->prevPosition[0];
                     $margedData['y_pos'] = $this->prevPosition[1];
                 }
@@ -184,6 +198,9 @@ class IdCardModule extends Component
                 }
             } else {
                 $newId = $this->getUniqueId(null, $this->backPageInfo);
+                if ($this->state['field_type'] == 'file' && isset($this->photo)) {
+                    $this->state['image_url'] = $this->photo->temporaryUrl();
+                }
                 $margedData = array_merge($this->state, ['id' => $newId]);
 
                 if (count($this->prevPosition)) {
@@ -235,8 +252,13 @@ class IdCardModule extends Component
     // database update
     public function saveCardInfo()
     {
-        // $fileName = 'csvFile_' . uniqid() . '.' . $this->csvFile->getClientOriginalExtension();
-        // $this->csvFile->storeAs('files', $fileName, 'public');
+
+        $image = $this->photo->getClientOriginalExtension();
+        $imgName = 'front_' . uniqid() . "." . $image;
+
+
+        $this->frontPageInfo[0]['image_url'] = $this->photo->storeAs('cards', $imgName, 'public');
+
 
         $card = CardInfo::updateOrCreate(
             ['card_id' => $this->cardModel->id],

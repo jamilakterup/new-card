@@ -3,6 +3,7 @@
 use App\Http\Controllers\CardController;
 use App\Http\Controllers\PdfController;
 use App\Http\Controllers\ProfileController;
+use App\Livewire\IdCard\CardMapping;
 use Illuminate\Support\Facades\Route;
 use App\Livewire\IdCard\IdCardModule;
 
@@ -30,16 +31,6 @@ Route::middleware('auth')->group(function () {
 require __DIR__ . '/auth.php';
 
 
-// Route::get('/design', function () {
-//     return view('userTemplate.pages.design');
-// })->middleware(['auth', 'verified'])->name('design');
-
-// admin dashboard
-// Route::get('/dashboard', function () {
-//     return view('adminTemplate.pages.dashboard');
-// })->middleware(['auth', 'verified'])->name('dashboard');
-
-
 // card crud ================
 Route::middleware(['auth', 'verified'])->group(function () {
     Route::resource('dashboard', CardController::class);
@@ -47,7 +38,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
 // design route ================
 Route::middleware(['auth', 'verified'])->group(function () {
-    Route::get('/design', IdCardModule::class);
+    Route::get('/card/mapping', CardMapping::class);
     Route::get('design/pdf/{id}', function ($card_id) {
         return view('userTemplate.pages.pdfPage', compact('card_id'));
     })->name('design/pdf');

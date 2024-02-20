@@ -17,7 +17,7 @@ class IdCardTemplate extends Component
         return view('livewire.id-card.id-card-template', compact('cards'));
     }
 
-    public function asignIdCard($tempId)
+    public function assignIdCard($tempId)
     {
         $card = Card::find($tempId);
 
