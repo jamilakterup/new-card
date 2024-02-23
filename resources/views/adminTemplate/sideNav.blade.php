@@ -20,10 +20,10 @@
                     </a>
                 </li>
                 <li class="sidebar-item">
-                    <a class="sidebar-link waves-effect waves-dark sidebar-link" href="{{url('design')}}"
+                    <a class="sidebar-link waves-effect waves-dark sidebar-link" href="{{url('card/mapping')}}"
                         aria-expanded="false">
                         <i class="fa fa-columns" aria-hidden="true"></i>
-                        <span class="hide-menu">Design Page</span>
+                        <span class="hide-menu">Card Mapping</span>
                     </a>
                 </li>
                 <li class="sidebar-item">

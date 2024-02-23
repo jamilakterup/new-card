@@ -49,6 +49,7 @@ class IdCardModule extends Component
         'y_pos' => 50,
         'height' => '',
         'width' => '',
+        'image_url' => '',
         'field_type' => '',
         'field_value' => '',
         'font_size' => '',
@@ -85,8 +86,6 @@ class IdCardModule extends Component
             $this->frontPageInfo = [];
             $this->backPageInfo = [];
         }
-        $this->dispatch("getCardData", $this->frontPageInfo);
-        $this->dispatch("getCardData", $this->backPageInfo);
         $this->reset('frontImage');
     }
 
@@ -176,7 +175,10 @@ class IdCardModule extends Component
             } else {
                 $newId = $this->getUniqueId($this->frontPageInfo);
                 if ($this->state['field_type'] == 'file' && isset($this->photo)) {
-                    $this->state['image_url'] = $this->photo->temporaryUrl();
+                    $image = $this->photo->getClientOriginalExtension();
+                    $imgName = 'front_' . uniqid() . "." . $image;
+
+                    $this->state['image_url'] = $this->photo->storeAs('cards', $imgName, 'public');
                 }
                 $margedData = array_merge($this->state, ['id' => $newId]);
 
@@ -199,7 +201,10 @@ class IdCardModule extends Component
             } else {
                 $newId = $this->getUniqueId(null, $this->backPageInfo);
                 if ($this->state['field_type'] == 'file' && isset($this->photo)) {
-                    $this->state['image_url'] = $this->photo->temporaryUrl();
+                    $image = $this->photo->getClientOriginalExtension();
+                    $imgName = 'front_' . uniqid() . "." . $image;
+
+                    $this->state['image_url'] = $this->photo->storeAs('cards', $imgName, 'public');
                 }
                 $margedData = array_merge($this->state, ['id' => $newId]);
 
@@ -252,13 +257,7 @@ class IdCardModule extends Component
     // database update
     public function saveCardInfo()
     {
-
-        $image = $this->photo->getClientOriginalExtension();
-        $imgName = 'front_' . uniqid() . "." . $image;
-
-
-        $this->frontPageInfo[0]['image_url'] = $this->photo->storeAs('cards', $imgName, 'public');
-
+        // dd($this->frontPageInfo, $this->backPageInfo);
 
         $card = CardInfo::updateOrCreate(
             ['card_id' => $this->cardModel->id],

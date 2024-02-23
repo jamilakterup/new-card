@@ -178,20 +178,19 @@
                             <td style="padding:10px 3px"><input wire:model.live="backPageInfo.{{$key}}.font_size"
                                     type="number" class="form-control" value="0">
                             </td>
-                            <td style="padding:10px 3px"><input
-                                    wire:model.live.debounce.600ms="backPageInfo.{{$key}}.x_pos" type="number"
-                                    class="form-control">
+                            <td style="padding:10px 3px"><input wire:model.live="backPageInfo.{{$key}}.x_pos"
+                                    type="number" class="form-control">
                             </td>
                             <td style="padding:10px 3px"> <input wire:model.live="backPageInfo.{{$key}}.y_pos"
                                     type="number" class="form-control">
                             </td>
                             <td style="padding:10px 3px">
-                                <input wire:model.live="frontPageInfo.{{$key}}.height" type="number"
+                                <input wire:model.live="backPageInfo.{{$key}}.height" type="number"
                                     class="form-control {{ $item['field_type'] == 'file' ? 'd-block' : 'd-none' }}"
                                     value="0">
                             </td>
                             <td style="padding:10px 3px">
-                                <input wire:model.live="frontPageInfo.{{$key}}.width" type="number"
+                                <input wire:model.live="backPageInfo.{{$key}}.width" type="number"
                                     class="form-control {{ $item['field_type'] == 'file' ? 'd-block' : 'd-none' }}"
                                     value="0">
                             </td>
