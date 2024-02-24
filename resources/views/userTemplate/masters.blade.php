@@ -9,9 +9,11 @@
 
     @include('userTemplate.navBar')
 
-    @yield('content')
+    <div style="min-height:490px">
+        @yield('content')
+    </div>
 
-
+    @include('userTemplate.footer')
     @include('userTemplate.scripts')
 </body>
 

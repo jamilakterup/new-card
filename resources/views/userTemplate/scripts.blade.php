@@ -13,6 +13,12 @@
 <script src="{{asset('assets/plugins/bower_components/jquery/dist/jquery.min.js')}}"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
 
+{{-- Lottie file --}}
+<script src="https://unpkg.com/@dotlottie/player-component@latest/dist/dotlottie-player.mjs" type="module"></script>
+
+
+
+
 {{-- front end js --}}
 {{--
 <script>

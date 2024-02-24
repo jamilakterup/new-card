@@ -25,11 +25,8 @@ class IdCardModule extends Component
     #[Validate(
         [
             'state.field_name' => 'required|max:255',
-            // 'state.field_type' => 'required|max:255',
-            // 'state.field_value' => 'required|max:255',
-            // 'state.font_size' => 'required|max:255',
-            // 'state.font_type' => 'required|max:255',
-            // 'state.font_family' => 'required|max:255',
+            'state.field_type' => 'required|max:255',
+            'state.field_value' => 'required|max:255',
         ],
         null,
         null,
@@ -37,9 +34,6 @@ class IdCardModule extends Component
             'state.field_name' => 'Insert field name',
             'state.field_type' => 'Select input type',
             'state.field_value' => 'Insert field value',
-            'state.font_size' => 'Select font size',
-            'state.font_type' => 'Select font type',
-            'state.font_family' => 'Select font family',
         ]
     )]
 
@@ -49,7 +43,6 @@ class IdCardModule extends Component
         'y_pos' => 50,
         'height' => '',
         'width' => '',
-        'image_url' => '',
         'field_type' => '',
         'field_value' => '',
         'font_size' => '',
@@ -86,6 +79,7 @@ class IdCardModule extends Component
             $this->frontPageInfo = [];
             $this->backPageInfo = [];
         }
+        $this->dispatch("getCardData", $this->frontPageInfo);
         $this->reset('frontImage');
     }
 
@@ -94,13 +88,13 @@ class IdCardModule extends Component
     {
         if ($part == 'front') {
             $this->frontImage = true;
-            $this->dispatch("loadCanvasImage", $this->cardModel->front_image);
             $this->dispatch("getCardData", $this->frontPageInfo);
+            $this->dispatch("loadCanvasImage", $this->cardModel->front_image);
             $this->prevPosition = [30, 50];
         } else {
             $this->frontImage = false;
-            $this->dispatch("loadCanvasImage", $this->cardModel->back_image);
             $this->dispatch("getCardData", $this->backPageInfo);
+            $this->dispatch("loadCanvasImage", $this->cardModel->back_image);
             $this->prevPosition = [30, 50];
         }
     }
@@ -228,12 +222,10 @@ class IdCardModule extends Component
         if ($this->frontImage == true) {
             $filteredData = array_filter($this->frontPageInfo, fn ($item) => $item['id'] !== $id);
             $this->frontPageInfo = $filteredData;
-
             $this->dispatch("getCardData", $this->frontPageInfo);
         } else {
             $filteredData = array_filter($this->backPageInfo, fn ($item) => $item['id'] !== $id);
             $this->backPageInfo = $filteredData;
-
             $this->dispatch("getCardData", $this->backPageInfo);
         }
     }
