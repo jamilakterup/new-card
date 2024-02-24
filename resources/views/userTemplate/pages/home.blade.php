@@ -15,8 +15,8 @@
             </small>
             <br>
             <div class="d-flex gap-3">
-                <button class="btn btn-success my-5 p-3 w-50">Create Id card</button>
-                <button class="btn btn-outline-success my-5 p-3 w-50">Create Account</button>
+                <a href="{{url('/dashboard')}}" class="btn btn-success my-5 p-3 w-50">Upload Template</a>
+                <a href="{{url('/register')}}" class="btn btn-outline-success my-5 p-3 w-50">Create Account</a>
             </div>
         </div>
         <div class="col d-flex justify-content-end">
@@ -27,39 +27,12 @@
     </section>
 
     {{-- sub content section --}}
-    {{-- <h1 class="text-center text-success" style="margin: 100px 0 20px"><ins>ABOUT CARD</ins></h1>
-    <section class="container-fluid row my-5">
-        <div class="col d-flex justify-content-center">
-            <img src="{{asset('assets/template/card.jpg')}}" width="400px" height="500px" alt="card image">
-        </div>
-        <div class="col">
-            <h2>Introducing the ID Cards Maker </h2>
-            <p class="my-4">Introducing Wepik's Online ID Card Maker - An easy-to-use tool that makes it smooth to
-                create
-                professional ID cards for your company. With templates designed to make the process simple and clean,
-                get your ID cards in no time! </p>
-
-            <ul>
-                <li>
-
-                    Explore a range of customizable templates designed to simplify the ID card creation process.
-                </li>
-                <li>
-                    Personalize your ID cards with pictures, logos, shapes, texts and extra information to make them
-                    professional and unique.
-                </li>
-                <li>
-                    Enjoy the convenience of instantly downloading your final product, in PDF, JPEG or PNG
-                </li>
-            </ul>
-        </div>
-    </section> --}}
-
-    {{-- sub content section --}}
     <h1 class="text-center text-success" style="margin: 100px 0 20px"><ins>ABOUT CARD</ins></h1>
     <section class="container-fluid d-flex justify-content-center align-items-center my-5 px-5">
         <div class="d-flex justify-content-center">
-            <img src="{{asset('assets/template/card.jpg')}}" width="400px" height="500px" alt="card image">
+            <dotlottie-player src="https://lottie.host/e9649bc7-c144-4fec-9fc0-5da06082e66d/h7AHZnH0Xr.json"
+                background="transparent" speed="1" style="width: 500px; height: 400px;" loop autoplay>
+            </dotlottie-player>
         </div>
         <div class="mx-5">
             <h2>Introducing the ID Cards Maker </h2>
@@ -111,7 +84,6 @@
             </dotlottie-player>
         </div>
     </section>
-
 </main>
 
 @endsection
