@@ -134,13 +134,13 @@
                     <tbody>
                         @if ($frontImage)
                         @foreach ($frontPageInfo as $key => $item)
-                        <tr class="align-middle">
+                        <tr class="align-middle" wire:key="{{$frontImage?'front':'back'}}">
                             <th style="padding:10px 3px 10px 8px">
                                 {{$item['field_name']}}
-                                @if ($item['field_name']=='img')
-
-
-                                <img src="{{asset('storage/'.$item['image_url'])}}" height="10px" alt="">
+                                @if ($item['field_type']=='file')
+                                <img src="{{asset('storage/'.$item['image_url'])}}" height="15px" alt="">
+                                @else
+                                ({{$item['field_value']}})
                                 @endif
                             </th>
                             <td style="padding:10px 3px"><input wire:model.live="frontPageInfo.{{$key}}.font_size"
@@ -167,7 +167,8 @@
                             <td style="padding:0 15px 0">
                                 <i wire:click="editItem({{$item['id']}})"
                                     class="fa-solid fa-pen-to-square me-2 fs-6 text-success"></i>
-                                <i wire:click="deleteItem({{$item['id']}})" class="fa-solid fa-trash-can fs-6"></i>
+                                <i wire:click="deleteItem({{$key}})"
+                                    class="fa-solid fa-trash-can text-danger fs-6"></i>
                             </td>
                         </tr>
                         @endforeach
@@ -197,7 +198,8 @@
                             <td style="padding:0 15px 0" class="px-auto">
                                 <i wire:click="editItem({{$item['id']}})"
                                     class="fa-solid fa-pen-to-square me-2 fs-6 text-success"></i>
-                                <i wire:click="deleteItem({{$item['id']}})" class="fa-solid fa-trash-can fs-6"></i>
+                                <i wire:click="deleteItem({{$item['id']}})"
+                                    class="fa-solid fa-trash-can text-danger fs-6"></i>
                             </td>
                         </tr>
                         @endforeach
@@ -213,15 +215,10 @@
             CARD Info</button>
     </div>
 
-
-
-
-
 </div>
 
 
 <script>
-    // alert('sdjf')
     // to make input field outline visible
     document.addEventListener('livewire:init', function() {
         Livewire.hook('morph.updated', ({ el, component }) => {

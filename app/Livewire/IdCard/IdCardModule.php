@@ -133,7 +133,7 @@ class IdCardModule extends Component
     }
 
 
-    // get unique id to add or delete data
+    // // get unique id to add or delete data
     public function getUniqueId($frontPageInfo = null, $backPageInfo = null)
     {
         if ($this->frontImage == true) {
@@ -152,6 +152,7 @@ class IdCardModule extends Component
             }
         }
     }
+
 
 
     // add items to the array
@@ -182,6 +183,8 @@ class IdCardModule extends Component
                     $margedData['x_pos'] = $this->prevPosition[0];
                     $margedData['y_pos'] = $this->prevPosition[1];
                 }
+
+                //$uid=count($this->frontPageInfo)+1;
 
                 $this->frontPageInfo[] = $margedData;
             }
@@ -219,13 +222,15 @@ class IdCardModule extends Component
     // delete row
     public function deleteItem($id)
     {
+
         if ($this->frontImage == true) {
-            $filteredData = array_filter($this->frontPageInfo, fn ($item) => $item['id'] !== $id);
-            $this->frontPageInfo = $filteredData;
+            unset($this->frontPageInfo[$id]);
+            $this->frontPageInfo = array_values($this->frontPageInfo);
+
             $this->dispatch("getCardData", $this->frontPageInfo);
         } else {
-            $filteredData = array_filter($this->backPageInfo, fn ($item) => $item['id'] !== $id);
-            $this->backPageInfo = $filteredData;
+            unset($this->backPageInfo[$id]);
+            $this->backPageInfo = array_values($this->backPageInfo);
             $this->dispatch("getCardData", $this->backPageInfo);
         }
     }

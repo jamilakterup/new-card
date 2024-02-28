@@ -18,9 +18,9 @@
                     @endif
 
                     @if (isset($row['id']))
-                    <h3 class="my-3">Update Front Side Image</h3>
+                    <h3 class="my-3">Update Front Template</h3>
                     @else
-                    <h3 class="my-3">Upload Front Side Image </h3>
+                    <h3 class="my-3">Upload Front Template</h3>
                     @endif
 
                     <input type="file" name="front_image" id="front_image" class="form-control"
@@ -37,9 +37,9 @@
 
                 <div>
                     @if (isset($row['id']))
-                    <h3 class="my-4">Update Front Side Image</h3>
+                    <h3 class="my-4">Update Front Template</h3>
                     @else
-                    <h4 class="my-4">Upload Front Side PDF Image </h4>
+                    <h4 class="my-4">Upload Front Template (PDF)</h4>
                     @endif
                     <input type="file" name="front_pdf" id="front_pdf" class="form-control" accept=".pdf">
 
@@ -62,9 +62,9 @@
                     @endif
 
                     @if (isset($row['id']))
-                    <h3 class="my-3">Update Back Side Image</h3>
+                    <h3 class="my-3">Update Back Template</h3>
                     @else
-                    <h3 class="my-3">Upload Back Side Image</h3>
+                    <h3 class="my-3">Upload Back Template</h3>
                     @endif
 
                     <input type="file" name="back_image" id="back_image" class="form-control" accept=".jpg,.png,.jpeg">
@@ -79,9 +79,9 @@
 
                 <div>
                     @if (isset($row['id']))
-                    <h3 class="my-4">Update Front Side Image</h3>
+                    <h3 class="my-4">Update Back Template (PDF)</h3>
                     @else
-                    <h4 class="my-4">Upload Back Side PDF Image </h4>
+                    <h4 class="my-4">Upload Back Template (PDF)</h4>
                     @endif
                     <input type="file" name="back_pdf" id="back_pdf" class="form-control" accept=".pdf">
 
@@ -98,11 +98,11 @@
 
             @if (isset($row['id']))
             <button type="submit" class="btn btn-success mx-auto my-5 p-md-3 w-50" data-mdb-ripple-init>Update
-                Card</button>
+                Template</button>
 
             @else
             <button type="submit" class="btn btn-success mx-auto my-5 p-md-3 w-50" data-mdb-ripple-init>Upload
-                Card</button>
+                Template</button>
 
             @endif
         </div>
