@@ -8,6 +8,7 @@ use Livewire\Component;
 use Livewire\Attributes\Validate;
 use Livewire\WithFileUploads;
 
+use function Laravel\Prompts\alert;
 
 class IdCardModule extends Component
 {
@@ -254,16 +255,17 @@ class IdCardModule extends Component
     // database update
     public function saveCardInfo()
     {
-        // dd($this->frontPageInfo, $this->backPageInfo);
-
-        $card = CardInfo::updateOrCreate(
-            ['card_id' => $this->cardModel->id],
-            [
-                'front_page_info' => json_encode($this->frontPageInfo),
-                'back_page_info' => json_encode($this->backPageInfo),
-            ]
-        );
-
-        return redirect()->route('design/pdf', $card->card_id);
+        if (count($this->frontPageInfo) > 0 && $this->cardModel !== null) {
+            $card = CardInfo::updateOrCreate(
+                ['card_id' => $this->cardModel->id],
+                [
+                    'front_page_info' => json_encode($this->frontPageInfo),
+                    'back_page_info' => json_encode($this->backPageInfo),
+                ]
+            );
+            return redirect()->route('design/pdf', $card->card_id);
+        } else {
+            dd('fill all the details');
+        }
     }
 }

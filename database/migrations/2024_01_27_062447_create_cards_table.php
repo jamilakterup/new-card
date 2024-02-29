@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('cards', function (Blueprint $table) {
             $table->id();
-            $table->string('user_id')->nullable();
+            $table->string('card_title');
             $table->string('front_image');
             $table->string('back_image');
             $table->string('front_pdf');

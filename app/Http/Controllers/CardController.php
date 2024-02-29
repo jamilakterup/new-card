@@ -31,6 +31,7 @@ class CardController extends Controller
     public function store(Request $request)
     {
         $this->validate($request, [
+            'card_title' => 'required',
             'front_image' => 'required|image|mimes:jpeg,png,jpg|max:2048',
             'back_image' => 'required|image|mimes:jpeg,png,jpg|max:2048',
             'front_pdf' => 'required|mimes:pdf',
@@ -38,6 +39,9 @@ class CardController extends Controller
         ]);
 
         $cards = new Card();
+        if (isset($request->card_title)) {
+            $cards->card_title = $request->card_title;
+        }
         if ($request->hasFile('front_image')) {
             $frontImage = $request->file('front_image');
             $frontFileExt = $frontImage->getClientOriginalExtension();
@@ -97,6 +101,8 @@ class CardController extends Controller
         $this->validate($request, [
             'front_image' => 'required|image|mimes:jpeg,png,jpg|max:2048',
             'back_image' => 'required|image|mimes:jpeg,png,jpg|max:2048',
+            'front_pdf' => 'required|mimes:pdf',
+            'back_pdf' => 'required|mimes:pdf',
         ]);
 
         $cards = Card::find($id);

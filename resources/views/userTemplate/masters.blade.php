@@ -9,7 +9,7 @@
 
     @include('userTemplate.navBar')
 
-    <div style="min-height:490px">
+    <div style="min-height:495px">
         @yield('content')
     </div>
 

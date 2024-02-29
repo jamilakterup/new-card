@@ -167,8 +167,7 @@
                             <td style="padding:0 15px 0">
                                 <i wire:click="editItem({{$item['id']}})"
                                     class="fa-solid fa-pen-to-square me-2 fs-6 text-success"></i>
-                                <i wire:click="deleteItem({{$key}})"
-                                    class="fa-solid fa-trash-can text-danger fs-6"></i>
+                                <i wire:click="deleteItem({{$key}})" class="fa-solid fa-trash-can text-danger fs-6"></i>
                             </td>
                         </tr>
                         @endforeach
@@ -210,11 +209,12 @@
         </div>
     </div>
 
+    @if (!is_null($cardModel))
     <div class="text-center my-5">
         <button type="submit" wire:click="saveCardInfo" class="btn btn-success w-25" data-mdb-ripple-init>SUBMIT
             CARD Info</button>
     </div>
-
+    @endif
 </div>
 
 

@@ -8,5 +8,12 @@ use Illuminate\Database\Eloquent\Model;
 class Card extends Model
 {
     use HasFactory;
-    protected $fillable = ['image'];
+    // protected $fillable = ['image'];
+    protected $fillable = [
+        'card_title',
+        'front_image',
+        'back_image',
+        'front_pdf',
+        'back_pdf'
+    ];
 }

@@ -10,6 +10,7 @@
 
     {{ $slot }}
 
+
     @include('userTemplate.scripts')
 </body>
 

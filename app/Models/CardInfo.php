@@ -15,4 +15,8 @@ class CardInfo extends Model
         'back_page_info',
         // 'csv_file',
     ];
+
+    public function card(){
+        return $this->belongsTo(Card::class);
+    }
 }

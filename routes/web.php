@@ -5,8 +5,6 @@ use App\Http\Controllers\PdfController;
 use App\Http\Controllers\ProfileController;
 use App\Livewire\IdCard\CardMapping;
 use Illuminate\Support\Facades\Route;
-use App\Livewire\IdCard\IdCardModule;
-use App\Models\User;
 
 /*
 |--------------------------------------------------------------------------

@@ -11,8 +11,16 @@
         @endif
 
         <div class="row">
+            <h1 class="text-center text-success mb-5"><u>Add your card template</u></h1>
+
+            <div class="form-outline my-4" data-mdb-input-init>
+                <input name="card_title" type="text" id="typeText" class="form-control" />
+                <label class="form-label" for="typeText">Add Card Title</label>
+            </div>
+
             <div class="col-md-6">
                 <div class="form-group files">
+
                     @if (isset($row['front_image']))
                     <img src="{{ Storage::url($row['front_image']) }}" style="height: 150px; width:150px" alt="">
                     @endif

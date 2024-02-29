@@ -13,11 +13,9 @@ return new class extends Migration
     {
         Schema::create('card_infos', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('user_id')->nullable();
             $table->foreignId('card_id');
-            $table->json('front_page_info')->nullable();
-            $table->json('back_page_info')->nullable();
-            // $table->json('csv_file')->nullable();
+            $table->json('front_page_info');
+            $table->json('back_page_info');
             $table->timestamps();
         });
     }

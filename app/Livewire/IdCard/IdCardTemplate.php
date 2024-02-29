@@ -20,7 +20,6 @@ class IdCardTemplate extends Component
     public function assignIdCard($tempId)
     {
         $card = Card::find($tempId);
-
         $this->dispatch("getIdCardTemplate", $tempId)->to(IdCardModule::class);
         $this->dispatch("loadCanvasImage", $card->front_image);
         if ($tempId) {

@@ -3,6 +3,15 @@
 @section('content')
 
 <div class="form-group text-center col-10 mx-auto">
+    @php
+    $cards=App\Models\Card::all();
+    $cardsArray= json_decode($cards, true);
+    @endphp
+
+    @if (array_search($card_id, array_column($cardsArray, 'id')) !== false)
+    <h2 class="mt-5">{{$cardsArray[array_search($card_id, array_column($cardsArray, 'id'))]['card_title']}} Card</h2>
+    @endif
+
     <form action="{{route('/pdf')}}" method="POST" enctype="multipart/form-data">
         @csrf
         <input type="hidden" value="{{$card_id}}" name="card_id">
